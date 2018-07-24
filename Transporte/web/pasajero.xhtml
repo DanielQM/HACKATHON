@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    
+    <h:form>
+        <p:breadCrumb>
+            <p:menuitem value="" url=""/>
+            <p:menuitem value="BUS" url="bus.xhtml" />
+            <p:menuitem value="PASAJERO" url="pasajero.xhtml" />
+        </p:breadCrumb>
+    </h:form>
+    <h:body>
+        <h:form id="FormPasajero">
+            <p:growl id="msg" life="1500" autoUpdate="true"/>
+            <p:panelGrid columns="1">
+                <p:inputText value="#{pasajeroC.pasajero.nombre}" placeholder="NOMBRE" maxlength="100" style="text-transform: uppercase" required="true" requiredMessage="INGRESE NOMBRE">
+                    <p:keyFilter regEx="/[a-z/A-Z]/"/>
+                </p:inputText>
+                <p:inputText value="#{pasajeroC.pasajero.dni}" placeholder="DNI" maxlength="8" required="true" requiredMessage="INGRESE DNI">
+                    <p:keyFilter regEx="/[0-9]/"/>
+                </p:inputText>
+                <p:inputMask value="#{pasajeroC.pasajero.nacimiento}" mask="99/99/9999" placeholder="FECHA DE NACIMIENTO"  required="true" requiredMessage="INGRESE FECHA DE NACIMIENTO"/>
+                <p:commandButton value="REGISTRAR" actionListener="#{pasajeroC.guardar()}" update="FormPasajero :FormTblPasajero:tblPasajero"/>
+            </p:panelGrid>
+        </h:form>
+
+        <h:form id="FormTblPasajero">
+            <p:dataTable id="tblPasajero"
+                         var="pasajero"
+                         value="#{pasajeroC.lstPasajero}"
+                         selection="#{pasajeroC.selectedPasajero}"
+                         selectionMode="single"
+                         rowKey="#{pasajero.codigo}">
+                <f:facet name="header">
+                    <h:commandLink value="Descargar">
+                        <p:dataExporter type="pdf" target="tblPasajero" fileName="Pasajeros"/>
+                    </h:commandLink>
+                </f:facet>
+                <p:column headerText="NOMBRE">
+                    <h:outputText value="#{pasajero.nombre}"/>
+                </p:column>
+                <p:column headerText="DNI">
+                    <h:outputText value="#{pasajero.dni}"/>
+                </p:column>
+                <p:column headerText="EDAD">
+                    <h:outputText value="#{pasajero.nacimiento}"/>
+                </p:column>
+
+            </p:dataTable>
+
+            <p:contextMenu for="tblPasajero">
+                <p:menuitem value="EDITAR" oncomplete="PF('dloModPasajero').show()" update=":FormDialog"/>
+                <p:menuitem value="ELIMINAR" actionListener="#{pasajeroC.eliminar()}" update="tblPasajero">
+                    <p:confirm header="" message="Está seguro de eliminar este registro"/>
+                </p:menuitem>
+            </p:contextMenu>
+        </h:form>
+
+        <p:dialog header="ACTUALIZAR DATOS" widgetVar="dloModPasajero" resizable="false" modal="true">
+            <h:form id="FormDialog">
+                <p:panelGrid columns="1">
+                    <p:inputText value="#{pasajeroC.selectedPasajero.nombre}" placeholder="NOMBRE" maxlength="100" style="text-transform: uppercase">
+                        <p:keyFilter regEx="/[a-z/A-Z]/"/>
+                    </p:inputText>
+                    <p:inputText value="#{pasajeroC.selectedPasajero.dni}" placeholder="DNI" maxlength="8">
+                        <p:keyFilter regEx="/[0-9]/"/>
+                    </p:inputText>
+                    <p:inputMask value="#{pasajeroC.selectedPasajero.nacimiento}" mask="99/99/9999" placeholder="FECHA DE NACIMIENTO"/>
+                    <p:commandButton value="MODIFICAR" actionListener="#{pasajeroC.modificar()}" update=":FormTblPasajero:tblPasajero"/>
+                    <p:commandButton value="CANCELAR" oncomplete="PF('dloModPasajero').hide()"/>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <h:form>
+            <p:confirmDialog global="true">
+                <p:commandButton value="SI" type="button" styleClass="ui-confirmdialog-yes"/>
+                <p:commandButton value="NO" type="button" styleClass="ui-confirmdialog-no"/>
+            </p:confirmDialog>
+        </h:form>
+
+    </h:body>
+</html>
+

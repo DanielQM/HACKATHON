@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:form>
+        <p:breadCrumb>
+            <p:menuitem value="" url=""/>
+            <p:menuitem value="BUS" url="bus.xhtml" />
+            <p:menuitem value="PASAJERO" url="pasajero.xhtml" />
+        </p:breadCrumb>
+    </h:form>
+
+    <h:body>
+        <h:form id="FormBus">
+            <p:growl id="msg" life="1500" autoUpdate="true"/>
+            <p:panelGrid columns="1">
+                <p:inputText value="#{busC.bus.placa}" placeholder="PLACA" maxlength="20" style="text-transform: uppercase" required="true" requiredMessage="INGRESE PLACA"/>
+                <p:inputText value="#{busC.bus.asientos}" placeholder="N° DE ASIENTOS" maxlength="2" required="true" requiredMessage="INGRESE N° DE ASIENTOS">
+                    <p:keyFilter regEx="/[0-9]/"/>
+                </p:inputText>
+                <p:commandButton value="REGISTRAR" actionListener="#{busC.guardar()}" update="FormBus :FormTblBus:tblBus"/>
+            </p:panelGrid>
+        </h:form>
+
+        <h:form id="FormTblBus">
+            <p:dataTable id="tblBus"
+                         var="bus"
+                         value="#{busC.lstBus}"
+                         selection="#{busC.selectedBus}"
+                         selectionMode="single"
+                         rowKey="#{bus.codigo}">
+                <f:facet name="header">
+                    <h:commandLink value="Descargar">
+                        <p:dataExporter type="pdf" target="tblBus" fileName="Bus"/>
+                    </h:commandLink>
+                </f:facet>
+                <p:column headerText="PLACA">
+                    <h:outputText value="#{bus.placa}"/>
+                </p:column>
+                <p:column headerText="N° DE ASIENTOS">
+                    <h:outputText value="#{bus.asientos}"/>
+                </p:column>
+            </p:dataTable>
+
+            <p:contextMenu for="tblBus">
+                <p:menuitem value="EDITAR" oncomplete="PF('dloModBus').show()" update=":FormDialog"/>
+                <p:menuitem value="ELIMINAR" actionListener="#{busC.eliminar()}" update="tblBus">
+                    <p:confirm header="" message="Está seguro de eliminar este registro"/>
+                </p:menuitem>
+            </p:contextMenu>
+        </h:form>
+
+        <p:dialog header="ACTUALIZAR DATOS" widgetVar="dloModBus" resizable="false" modal="true">
+            <h:form id="FormDialog">
+                <p:panelGrid columns="1">
+                    <p:inputText value="#{busC.selectedBus.placa}" placeholder="PLACA" maxlength="20" style="text-transform: uppercase"/>
+                    <p:inputText value="#{busC.selectedBus.asientos}" placeholder="N° DE ASIENTOS" maxlength="8">
+                        <p:keyFilter regEx="/[0-9]/"/>
+                    </p:inputText>
+                    <p:commandButton value="MODIFICAR" actionListener="#{busC.modificar()}" update=":FormTblBus:tblBus"/>
+                    <p:commandButton value="CANCELAR" oncomplete="PF('dloModBus').hide()"/>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <h:form>
+            <p:confirmDialog global="true">
+                <p:commandButton value="SI" type="button" styleClass="ui-confirmdialog-yes"/>
+                <p:commandButton value="NO" type="button" styleClass="ui-confirmdialog-no"/>
+            </p:confirmDialog>
+        </h:form>
+    </h:body>
+</html>
+
