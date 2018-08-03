@@ -1,4 +1,3 @@
-
 package controller;
 
 import dao.SucursalD;
@@ -11,39 +10,39 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import model.SucursalM;
 
-
 @Named(value = "sucursalC")
 @SessionScoped
 public class SucursalC implements Serializable {
 
     SucursalM sucursal = new SucursalM();
-    List<SucursalM> lstSucursal;
-    
+    private List<SucursalM> lstSucursal;
+    private SucursalM selectedSucursal;
+
     @PostConstruct
-    public void iniciar(){
+    public void iniciar() {
         try {
             listar();
         } catch (Exception e) {
         }
     }
-    
+
     public void limpiar() {
         sucursal = new SucursalM();
     }
-    
+
     public void guardar() {
         SucursalD dao;
         try {
             dao = new SucursalD();
             dao.guardar(sucursal);
             listar();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Agregado Correctamente", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Agregado Correctamente", null));
             limpiar();
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Error al Agregar", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Agregar", null));
         }
     }
-    
+
     public void listar() throws Exception {
         SucursalD dao;
         try {
@@ -51,6 +50,31 @@ public class SucursalC implements Serializable {
             lstSucursal = dao.listar();
         } catch (Exception e) {
             throw e;
+        }
+    }
+
+    public void modificar() {
+        SucursalD dao;
+        try {
+            dao = new SucursalD();
+            dao.modificar(selectedSucursal);
+            listar();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Modificado Correctamente", null));
+            limpiar();
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Modificar", null));
+        }
+    }
+
+    public void eliminar() {
+        SucursalD dao;
+        try {
+            dao = new SucursalD();
+            dao.eliminar(selectedSucursal);
+            listar();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminado Correctamente", null));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al Eliminar", null));
         }
     }
 
@@ -68,5 +92,13 @@ public class SucursalC implements Serializable {
 
     public void setLstSucursal(List<SucursalM> lstSucursal) {
         this.lstSucursal = lstSucursal;
+    }
+
+    public SucursalM getSelectedSucursal() {
+        return selectedSucursal;
+    }
+
+    public void setSelectedSucursal(SucursalM selectedSucursal) {
+        this.selectedSucursal = selectedSucursal;
     }
 }

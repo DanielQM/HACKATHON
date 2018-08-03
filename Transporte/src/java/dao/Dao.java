@@ -13,7 +13,7 @@ public class Dao {
     public void conectar() throws SQLException, ClassNotFoundException {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            cn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;database=BD_Transporte", "root", "root");
+            cn = DriverManager.getConnection("jdbc:sqlserver://192.168.8.128:1433;database=BD_Transporte", "sa", "vallegrande2018");
             System.out.println("Conectado");
         } catch (ClassNotFoundException e) {
             System.out.println("Error: " + e);

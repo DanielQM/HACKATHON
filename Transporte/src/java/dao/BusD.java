@@ -14,7 +14,7 @@ public class BusD extends Dao implements IBus{
     public void guardar(BusM bus) throws Exception {
         try {
             this.conectar();
-            String sql = " EXEC SP_INSERTBUS @PLACA=?,@ASIENTOS=?";
+            String sql = "INSERT INTO BUS(PLACA_BUS, NASIENTO) VALUES(?,?)";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             ps.setString(1, bus.getPlaca());
             ps.setString(2, bus.getAsientos());
@@ -30,7 +30,7 @@ public class BusD extends Dao implements IBus{
     public void modificar(BusM bus) throws Exception {
         try {
             this.conectar();
-            String sql = "EXEC SP_UPDATEBUS @PLACA=?, @ASIENTOS=?, @CODIGO=?";
+            String sql = "UPDATE BUS SET PLACA_BUS=?, NASIENTO=? WHERE COD_BUS=?";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             ps.setString(1, bus.getPlaca());
             ps.setString(2, bus.getAsientos());
@@ -47,7 +47,7 @@ public class BusD extends Dao implements IBus{
     public void eliminar(BusM bus) throws Exception {
         try {
             this.conectar();
-            String sql = "EXEC SP_DELETEBUS ?";
+            String sql = "DELETE FROM BUS WHERE COD_BUS=?";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             ps.setString(1, bus.getCodigo());
             ps.executeUpdate();
@@ -64,7 +64,7 @@ public class BusD extends Dao implements IBus{
         ResultSet rs;
         try {
             this.conectar();
-            String sql = "SELECT * FROM VW_BUS";
+            String sql = "SELECT * FROM BUS";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             rs = ps.executeQuery();
             listaBus = new ArrayList();

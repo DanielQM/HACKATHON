@@ -15,7 +15,7 @@ public class PasajeroD extends Dao implements IPasajero{
     public void guardar(PasajeroM pasajero) throws Exception {
         try {
             this.conectar();
-            String sql = " EXEC SP_INSERTPASAJERO ?,?,?";
+            String sql = "INSERT INTO PASAJERO(NOM_PASJ, DNI_PASJ, FECNAC_PASJ) VALUES(?,?,?)";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             ps.setString(1, pasajero.getNombre());
             ps.setString(2, pasajero.getDni());
@@ -32,7 +32,7 @@ public class PasajeroD extends Dao implements IPasajero{
     public void modificar(PasajeroM pasajero) throws Exception {
         try {
             this.conectar();
-            String sql = "EXEC SP_UPDATEPASAJERO @NOMBRE=?, @DNI=?, @FECNAC=?, @CODIGO=?";
+            String sql = "UPDATE PASAJERO SET NOM_PASJ=?, DNI_PASJ=?, FECNAC_PASJ=? WHERE COD_PASJ=?";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             ps.setString(1, pasajero.getNombre());
             ps.setString(2, pasajero.getDni());
@@ -51,7 +51,7 @@ public class PasajeroD extends Dao implements IPasajero{
     public void eliminar(PasajeroM pasajero) throws Exception {
         try {
             this.conectar();
-            String sql = "EXEC SP_DELETEPASAJERO ?";
+            String sql = "DELETE FROM PASAJERO WHERE COD_PASJ=?";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             ps.setString(1, pasajero.getCodigo());
             ps.executeUpdate();
@@ -68,7 +68,7 @@ public class PasajeroD extends Dao implements IPasajero{
         ResultSet rs;
         try {
             this.conectar();
-            String sql = "EXEC SP_LISTPASAJERO";
+            String sql = "SELECT * FROM PASAJERO";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             rs = ps.executeQuery();
             listaPasajero = new ArrayList();

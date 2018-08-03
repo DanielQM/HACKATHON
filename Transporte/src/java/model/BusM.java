@@ -36,6 +36,4 @@ public class BusM {
     public void setAsientos(String asientos) {
         this.asientos = asientos;
     }
-    
-    
 }

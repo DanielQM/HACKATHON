@@ -7,8 +7,7 @@ public class RutaM {
     private String codigo;
     private String origen;
     private String destino;
-    private double costo;
-    private String codSucursal;
+    private String costo;
 
     public String getCodigo() {
         return codigo;
@@ -34,19 +33,11 @@ public class RutaM {
         this.destino = destino;
     }
 
-    public double getCosto() {
+    public String getCosto() {
         return costo;
     }
 
-    public void setCosto(double costo) {
+    public void setCosto(String costo) {
         this.costo = costo;
-    }
-
-    public String getCodSucursal() {
-        return codSucursal;
-    }
-
-    public void setCodSucursal(String codSucursal) {
-        this.codSucursal = codSucursal;
     }
 }

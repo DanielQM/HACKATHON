@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Rutas</title>
+    </h:head>
+    <h:body>
+        <h:form id="FormRuta">
+            <p:growl id="msg" life="1500" autoUpdate="true"/>
+            <p:panelGrid columns="2">
+                <p:outputLabel value="ORIGEN:"/>
+                <p:selectOneMenu value="#{rutaC.ruta.origen}">
+                    <f:selectItem itemLabel="SELECCIONE ORIGEN" noSelectionOption="true"/>
+                    <f:selectItems value="#{sucursalC.lstSucursal}"  var="ori" itemLabel="#{ori.nombre}" itemValue="#{ori.nombre}"/>
+                </p:selectOneMenu>
+                <p:outputLabel value="DESTINO"/>
+                <p:selectOneMenu value="#{rutaC.ruta.destino}">
+                    <f:selectItem itemLabel="SELECCIONE DESTINO" noSelectionOption="true"/>
+                    <f:selectItems value="#{sucursalC.lstSucursal}"  var="des" itemLabel="#{des.nombre}" itemValue="#{des.nombre}"/>
+                </p:selectOneMenu>
+                <p:outputLabel value="COSTO:"/>
+                <p:inputText value="#{rutaC.ruta.costo}"/>
+                <p:commandButton value="GUARDAR" actionListener="#{rutaC.guardar()}" update="FormRuta :FormTblRuta:tblRuta"/>
+            </p:panelGrid>
+        </h:form>
+        <h:form id="FormTblRuta">
+            <p:dataTable id="tblRuta" var="ruta" value="#{rutaC.lstRuta}">
+                <p:column headerText="ORIGEN">
+                    <h:outputText value="#{ruta.origen}"/>
+                </p:column>
+                <p:column headerText="DESTINO">
+                    <h:outputText value="#{ruta.destino}"/>
+                </p:column>
+                <p:column headerText="COSTO">
+                    <h:outputText value="#{ruta.costo}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+
