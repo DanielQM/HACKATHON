@@ -9,7 +9,9 @@ public class BusM {
     private String asientos;
 
     
-    
+    /*
+        GETTER AND SETTER
+    */
     
     public String getCodigo() {
         return codigo;

@@ -7,7 +7,12 @@ public class PasajeroM {
     private String nombre;
     private String dni;
     private String nacimiento;
-
+    
+    
+    /*
+        GETTER AND SETTER
+    */
+    
     public String getCodigo() {
         return codigo;
     }
