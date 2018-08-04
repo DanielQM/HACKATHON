@@ -57,7 +57,7 @@
             <p:contextMenu for="tblPasajero">
                 <p:menuitem value="EDITAR" oncomplete="PF('dloModPasajero').show()" update=":FormDialog"/>
                 <p:menuitem value="ELIMINAR" actionListener="#{pasajeroC.eliminar()}" update="tblPasajero">
-                    <p:confirm header="" message="Está seguro de eliminar este registro"/>
+                    <p:confirm header="CONFIRMACIÓN" message="Está seguro de eliminar este registro"/>
                 </p:menuitem>
             </p:contextMenu>
         </h:form>
