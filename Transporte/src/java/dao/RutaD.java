@@ -53,6 +53,7 @@ public class RutaD extends Dao implements IRuta{
             String sql="DELETE FROM RUTAS WHERE COD_RUTA=?";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             ps.setString(1, ruta.getCodigo());
+            ps.executeUpdate();
         } catch (SQLException e) {
             throw e;
         }finally{

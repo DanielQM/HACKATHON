@@ -5,22 +5,32 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Bus</title>
+        <h:form>
+            <p:tabMenu activeIndex="#{param.i}">
+                <p:menuitem value="BUS" outcome="bus">
+                    <f:param name="i" value="0" />
+                </p:menuitem>
+                <p:menuitem value="PASAJERO" outcome="pasajero">
+                    <f:param name="i" value="1" />
+                </p:menuitem>
+                <p:menuitem value="RUTA" outcome="ruta">
+                    <f:param name="i" value="2" />
+                </p:menuitem>
+                <p:menuitem value="SUCURSAL" outcome="sucursal">
+                    <f:param name="i" value="3" />
+                </p:menuitem>
+            </p:tabMenu>
+        </h:form>
     </h:head>
-    <h:form>
-        <p:breadCrumb>
-            <p:menuitem value="" url=""/>
-            <p:menuitem value="BUS" url="bus.xhtml" />
-            <p:menuitem value="PASAJERO" url="pasajero.xhtml" />
-        </p:breadCrumb>
-    </h:form>
-
     <h:body>
         <h:form id="FormBus">
             <p:growl id="msg" life="1500" autoUpdate="true"/>
-            <p:panelGrid columns="1">
-                <p:inputText value="#{busC.bus.placa}" placeholder="PLACA" maxlength="20" style="text-transform: uppercase" required="true" requiredMessage="INGRESE PLACA"/>
-                <p:inputText value="#{busC.bus.asientos}" placeholder="N° DE ASIENTOS" maxlength="2" required="true" requiredMessage="INGRESE N° DE ASIENTOS">
+            <p:panelGrid columns="2">
+                <p:outputLabel value="PLACA:"/>
+                <p:inputMask value="#{busC.bus.placa}" mask="a9a-999" style="text-transform: uppercase" required="true" requiredMessage="INGRESE PLACA"/>
+                <p:outputLabel value="N° DE ASIENTOS:"/>
+                <p:inputText value="#{busC.bus.asientos}" maxlength="2" required="true" requiredMessage="INGRESE N° DE ASIENTOS">
                     <p:keyFilter regEx="/[0-9]/"/>
                 </p:inputText>
                 <p:commandButton value="REGISTRAR" actionListener="#{busC.guardar()}" update="FormBus :FormTblBus:tblBus"/>
@@ -50,19 +60,21 @@
             <p:contextMenu for="tblBus">
                 <p:menuitem value="EDITAR" oncomplete="PF('dloModBus').show()" update=":FormDialog"/>
                 <p:menuitem value="ELIMINAR" actionListener="#{busC.eliminar()}" update="tblBus">
-                    <p:confirm header="" message="Está seguro de eliminar este registro"/>
+                    <p:confirm header="CONFIRMACIÓN" message="Está seguro de eliminar este registro"/>
                 </p:menuitem>
             </p:contextMenu>
         </h:form>
 
         <p:dialog header="ACTUALIZAR DATOS" widgetVar="dloModBus" resizable="false" modal="true">
             <h:form id="FormDialog">
-                <p:panelGrid columns="1">
-                    <p:inputText value="#{busC.selectedBus.placa}" placeholder="PLACA" maxlength="20" style="text-transform: uppercase"/>
-                    <p:inputText value="#{busC.selectedBus.asientos}" placeholder="N° DE ASIENTOS" maxlength="8">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="PLACA:"/>
+                    <p:inputMask value="#{busC.selectedBus.placa}" mask="a9a-999"  style="text-transform: uppercase"/>
+                    <p:outputLabel value="N° DE ASIENTOS:"/>
+                    <p:inputText value="#{busC.selectedBus.asientos}" maxlength="2">
                         <p:keyFilter regEx="/[0-9]/"/>
                     </p:inputText>
-                    <p:commandButton value="MODIFICAR" actionListener="#{busC.modificar()}" update=":FormTblBus:tblBus"/>
+                    <p:commandButton value="MODIFICAR" actionListener="#{busC.modificar()}" update=":FormTblBus:tblBus" oncomplete="PF('dloModBus').hide()"/>
                     <p:commandButton value="CANCELAR" oncomplete="PF('dloModBus').hide()"/>
                 </p:panelGrid>
             </h:form>

@@ -5,27 +5,38 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Pasajero</title>
+        <h:form>
+            <p:tabMenu activeIndex="#{param.i}">
+                <p:menuitem value="BUS" outcome="bus">
+                    <f:param name="i" value="0" />
+                </p:menuitem>
+                <p:menuitem value="PASAJERO" outcome="pasajero">
+                    <f:param name="i" value="1" />
+                </p:menuitem>
+                <p:menuitem value="RUTA" outcome="ruta">
+                    <f:param name="i" value="2" />
+                </p:menuitem>
+                <p:menuitem value="SUCURSAL" outcome="sucursal">
+                    <f:param name="i" value="3" />
+                </p:menuitem>
+            </p:tabMenu>
+        </h:form>
     </h:head>
-    
-    <h:form>
-        <p:breadCrumb>
-            <p:menuitem value="" url=""/>
-            <p:menuitem value="BUS" url="bus.xhtml" />
-            <p:menuitem value="PASAJERO" url="pasajero.xhtml" />
-        </p:breadCrumb>
-    </h:form>
     <h:body>
         <h:form id="FormPasajero">
             <p:growl id="msg" life="1500" autoUpdate="true"/>
-            <p:panelGrid columns="1">
-                <p:inputText value="#{pasajeroC.pasajero.nombre}" placeholder="NOMBRE" maxlength="100" style="text-transform: uppercase" required="true" requiredMessage="INGRESE NOMBRE">
-                    <p:keyFilter regEx="/[a-z/A-Z]/"/>
+            <p:panelGrid columns="2">
+                <p:outputLabel value="NOMBRES/APELLIDOS:"/>
+                <p:inputText value="#{pasajeroC.pasajero.nombre}" maxlength="100" style="text-transform: uppercase" required="true" requiredMessage="INGRESE NOMBRE">
+                    <p:keyFilter regEx="/[a-z/A-Z/ ]/"/>
                 </p:inputText>
-                <p:inputText value="#{pasajeroC.pasajero.dni}" placeholder="DNI" maxlength="8" required="true" requiredMessage="INGRESE DNI">
+                <p:outputLabel value="DNI:"/>
+                <p:inputText value="#{pasajeroC.pasajero.dni}" maxlength="8" required="true" requiredMessage="INGRESE DNI">
                     <p:keyFilter regEx="/[0-9]/"/>
                 </p:inputText>
-                <p:inputMask value="#{pasajeroC.pasajero.nacimiento}" mask="99/99/9999" placeholder="FECHA DE NACIMIENTO"  required="true" requiredMessage="INGRESE FECHA DE NACIMIENTO"/>
+                <p:outputLabel value="FECHA DE NACIMIENTO:"/>
+                <p:inputMask value="#{pasajeroC.pasajero.nacimiento}" mask="99/99/9999" required="true" requiredMessage="INGRESE FECHA DE NACIMIENTO"/>
                 <p:commandButton value="REGISTRAR" actionListener="#{pasajeroC.guardar()}" update="FormPasajero :FormTblPasajero:tblPasajero"/>
             </p:panelGrid>
         </h:form>
@@ -57,22 +68,25 @@
             <p:contextMenu for="tblPasajero">
                 <p:menuitem value="EDITAR" oncomplete="PF('dloModPasajero').show()" update=":FormDialog"/>
                 <p:menuitem value="ELIMINAR" actionListener="#{pasajeroC.eliminar()}" update="tblPasajero">
-                    <p:confirm header="CONFIRMACIÓN" message="Está seguro de eliminar este registro"/>
+                    <p:confirm header="CONFIRMACIÓN" message="¿Está seguro de eliminar este registro?"/>
                 </p:menuitem>
             </p:contextMenu>
         </h:form>
 
         <p:dialog header="ACTUALIZAR DATOS" widgetVar="dloModPasajero" resizable="false" modal="true">
             <h:form id="FormDialog">
-                <p:panelGrid columns="1">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="NOMBRES/APELLIDOS:"/>
                     <p:inputText value="#{pasajeroC.selectedPasajero.nombre}" placeholder="NOMBRE" maxlength="100" style="text-transform: uppercase">
-                        <p:keyFilter regEx="/[a-z/A-Z]/"/>
+                        <p:keyFilter regEx="/[a-z/A-Z/ ]/"/>
                     </p:inputText>
+                    <p:outputLabel value="DNI:"/>
                     <p:inputText value="#{pasajeroC.selectedPasajero.dni}" placeholder="DNI" maxlength="8">
                         <p:keyFilter regEx="/[0-9]/"/>
                     </p:inputText>
+                    <p:outputLabel value="FECHA DE NACIMIENTO:"/>
                     <p:inputMask value="#{pasajeroC.selectedPasajero.nacimiento}" mask="99/99/9999" placeholder="FECHA DE NACIMIENTO"/>
-                    <p:commandButton value="MODIFICAR" actionListener="#{pasajeroC.modificar()}" update=":FormTblPasajero:tblPasajero"/>
+                    <p:commandButton value="MODIFICAR" actionListener="#{pasajeroC.modificar()}" update=":FormTblPasajero:tblPasajero" oncomplete="PF('dloModPasajero').hide()"/>
                     <p:commandButton value="CANCELAR" oncomplete="PF('dloModPasajero').hide()"/>
                 </p:panelGrid>
             </h:form>

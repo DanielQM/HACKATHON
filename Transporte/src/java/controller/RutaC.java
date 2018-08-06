@@ -61,15 +61,19 @@ public class RutaC implements Serializable {
         RutaD dao;
         try {
             dao = new RutaD();
-            dao.modificar(selectedRuta);
+            if (selectedRuta.getOrigen().equals(selectedRuta.getDestino())) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Origen y Destino no pueden ser iguales", null));
+            } else {
+                dao.modificar(selectedRuta);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Modificado Correctamente", null));
+                limpiar();
+            }
             listar();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Modificado Correctamente", null));
-            limpiar();
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Modificar", null));
         }
     }
-    
+
     public void eliminar() {
         RutaD dao;
         try {
