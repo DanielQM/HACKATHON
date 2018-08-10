@@ -109,4 +109,5 @@ public class RutaC implements Serializable {
     public void setSelectedRuta(RutaM selectedRuta) {
         this.selectedRuta = selectedRuta;
     }
+
 }

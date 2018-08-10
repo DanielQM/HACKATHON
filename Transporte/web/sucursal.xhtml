@@ -8,17 +8,20 @@
         <title>Sucursales</title>
         <h:form>
             <p:tabMenu activeIndex="#{param.i}">
-                <p:menuitem value="BUS" outcome="bus">
+                <p:menuitem value="BOLETO" outcome="boleto">
                     <f:param name="i" value="0" />
                 </p:menuitem>
-                <p:menuitem value="PASAJERO" outcome="pasajero">
+                <p:menuitem value="BUS" outcome="bus">
                     <f:param name="i" value="1" />
                 </p:menuitem>
-                <p:menuitem value="RUTA" outcome="ruta">
+                <p:menuitem value="PASAJERO" outcome="pasajero">
                     <f:param name="i" value="2" />
                 </p:menuitem>
-                <p:menuitem value="SUCURSAL" outcome="sucursal">
+                <p:menuitem value="RUTA" outcome="ruta">
                     <f:param name="i" value="3" />
+                </p:menuitem>
+                <p:menuitem value="SUCURSAL" outcome="sucursal">
+                    <f:param name="i" value="4" />
                 </p:menuitem>
             </p:tabMenu>
         </h:form>
@@ -28,7 +31,7 @@
             <p:growl id="msg" life="1500" autoUpdate="true"/>
             <p:panelGrid columns="2">
                 <p:outputLabel value="SUCURSAL:"/>
-                <p:inputText value="#{sucursalC.sucursal.nombre}" placeholder="NOMBRE" maxlength="50" style="text-transform: uppercase" required="true" requiredMessage="INGRESE EL NOMBRE DE LA SUCURSAL">
+                <p:inputText value="#{sucursalC.sucursal.nombre}" maxlength="50" style="text-transform: uppercase" required="true" requiredMessage="INGRESE EL NOMBRE DE LA SUCURSAL">
                     <p:keyFilter regEx="/[a-z/A-Z]/"/>
                 </p:inputText>
                 <p:commandButton value="INGRESAR" actionListener="#{sucursalC.guardar()}" update="FormSuc :FormTblSuc:tblSuc"/>

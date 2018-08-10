@@ -14,6 +14,7 @@ import model.PasajeroM;
 @SessionScoped
 public class PasajeroC implements Serializable {
 
+    // INSTANCIAR E INICIALIZAR
     PasajeroM pasajero = new PasajeroM();
     private List<PasajeroM> lstPasajero;
     private PasajeroM selectedPasajero;
