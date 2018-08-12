@@ -7,6 +7,7 @@ public class PasajeroM {
     private String nombre;
     private String dni;
     private String nacimiento;
+    private String estado;
     
     
     /*
@@ -43,5 +44,13 @@ public class PasajeroM {
 
     public void setNacimiento(String nacimiento) {
         this.nacimiento = nacimiento;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

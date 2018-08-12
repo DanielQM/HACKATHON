@@ -1,47 +1,41 @@
+USE BD_TRANSPORTE
+GO
+SELECT * FROM BOLETO
+GO
 
-create view vistaColegio
-as
-select * from colegio
-go
+/* MUESTRA A LOS PASAJEROS QUE VIEJARON CON SU RESPECTIVA FECHA DE VIAJE Y SU RUTA */
+CREATE VIEW VW_BolPas
+AS
+    SELECT PASAJERO.NOM_PASJ, CONCAT(RUTAS.ORI_RUTA,'-',RUTAS.DES_RUTA) AS 'RUTA',FEC_BOL
+    FROM BOLETO
+    INNER JOIN PASAJERO ON PASAJERO.COD_PASJ = BOLETO.COD_PASJ
+    INNER JOIN RUTAS ON RUTAS.COD_RUTA = BOLETO.COD_RUTA
+GO
 
-create view vistaniÒos
-as
-select idniÒo,direcciÛn,horabuscar,horadejar,Colegios.nombre as colegio from niÒos
-inner join Colegios on colegios.idcolegio =niÒos.Colegios_idColegio
+/* MUESTRA LOS PASAJEROS ACTIVOS */
+CREATE VIEW VW_PasAct
+AS
+    SELECT NOM_PASJ
+    FROM PASAJERO
+    WHERE EST_PASJ LIKE 'A'
+GO
 
-go
+/* MUESTRA LOS BUSES A LOS QUE SE SUBIERON LOS PASAJEROS PARA VIAJAR */
+CREATE VIEW VW_PasBus
+AS
+    SELECT PASAJERO.NOM_PASJ,BUS.PLACA_BUS
+    FROM BOLETO
+    INNER JOIN PASAJERO ON PASAJERO.COD_PASJ = BOLETO.COD_PASJ
+    INNER JOIN BUS ON BUS.COD_BUS = BOLETO.COD_BUS
+GO
 
-create view vistaApoderado
-as
-select idapoderados,nombre,dni,telefono,niÒos.niÒos.nombre as niÒo from  Apoderados
-inner join niÒos on niÒos.idniÒos = apoderados.niÒis_idniÒos
-
-go
-create view vistaContratos
-as
-select idContrato,Apoderados.Nombre as apoderado ,Tiempocon,modalidad,cantidadniÒo,precio from Contratos 
-inner join apoderados on apoderados.idapoderado =contratos.apoderados_idapoderado
-go
-
-create view vistaRecorrido
-as
-select * from recorridos
-go
-
-create view vistaChoferes
-as
-select  idChofer,nombre,dni,licenciCondu,Buses.NumMatricula from Choferes
-inner join buses on  buses.idbus =buses_idbus
-go
-
-create view vistaBuses
-as
-select  * from buses
-
-go
-create view vistaAsistentes
-as
-select  idAsistente,nombre,dni,Buses.NumMatricula from Asistentes
-inner join buses on  buses.idbus =buses_idbus
-go
-
+/* MUESTRA LOS DATOS ESPEC√çFICOS DEL BOLETO */
+CREATE VIEW VW_Boleto
+AS
+    SELECT COD_BOL, PASAJERO.NOM_PASJ,CONCAT(RUTAS.ORI_RUTA,'-',RUTAS.DES_RUTA) AS 'RUTA',BUS.PLACA_BUS, FEC_BOL
+    FROM BOLETO
+    INNER JOIN BUS ON BUS.COD_BUS = BOLETO.COD_BUS
+    INNER JOIN RUTAS ON RUTAS.COD_RUTA = BOLETO.COD_RUTA
+    INNER JOIN PASAJERO ON PASAJERO.COD_PASJ = BOLETO.COD_PASJ
+GO
+    

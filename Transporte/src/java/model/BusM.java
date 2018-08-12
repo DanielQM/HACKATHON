@@ -7,6 +7,7 @@ public class BusM {
     private String codigo;
     private String placa;
     private String asientos;
+    private String estado;
 
     
     /*
@@ -35,5 +36,13 @@ public class BusM {
 
     public void setAsientos(String asientos) {
         this.asientos = asientos;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

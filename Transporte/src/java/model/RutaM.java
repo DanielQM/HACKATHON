@@ -8,6 +8,7 @@ public class RutaM {
     private String origen;
     private String destino;
     private String costo;
+    private String estado;
 
     public String getCodigo() {
         return codigo;
@@ -39,5 +40,13 @@ public class RutaM {
 
     public void setCosto(String costo) {
         this.costo = costo;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

@@ -6,9 +6,11 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Bus</title>
+    </h:head>
+    <h:body>
         <h:form>
             <p:tabMenu activeIndex="#{param.i}">
-                <p:menuitem value="BOLETO" outcome="boleto">
+                <p:menuitem value="BOLETO" action="boleto">
                     <f:param name="i" value="0" />
                 </p:menuitem>
                 <p:menuitem value="BUS" outcome="bus">
@@ -25,8 +27,6 @@
                 </p:menuitem>
             </p:tabMenu>
         </h:form>
-    </h:head>
-    <h:body>
         <h:form id="FormBus">
             <p:growl id="msg" life="1500" autoUpdate="true"/>
             <p:panelGrid columns="2">

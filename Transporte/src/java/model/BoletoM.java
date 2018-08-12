@@ -14,6 +14,7 @@ public class BoletoM {
     private String ruta;
     private String placa_bus;
     private String costo;
+    private String estado;
 
     public String getCodigo() {
         return codigo;
@@ -93,5 +94,13 @@ public class BoletoM {
 
     public void setCosto(String costo) {
         this.costo = costo;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

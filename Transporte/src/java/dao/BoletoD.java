@@ -14,47 +14,14 @@ public class BoletoD extends Dao implements IBoleto{
     public void guardar(BoletoM boleto) throws Exception {
         try {
             this.conectar();
-            String sql = "INSERT INTO BOLETO(FEC_BOL,NUM_ASIE,COD_PASJ,COD_RUTA,COD_BUS) VALUES(?,?,?,?,?)";
+            String sql = "EXEC SP_INSERTBOLETO @FEC_BOL=?,@NUM_ASIE=?,@EST_BOL=?,@COD_PASJ=?,@COD_RUTA=?,@COD_BUS=?";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             ps.setString(1, boleto.getFecha());
             ps.setString(2, boleto.getNumeroAsiento());
-            ps.setString(3, boleto.getCodPasajero());
-            ps.setString(4, boleto.getCodRuta());
-            ps.setString(5, boleto.getCodBus());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw e;
-        }finally{
-            this.cerrar();
-        }
-    }
-
-    @Override
-    public void modificar(BoletoM boleto) throws Exception {
-        try {
-            this.conectar();
-            String sql = "UPDATE FROM BOLETO SET FEC_BOL=?,NUM_ASIE=?,COD_PASJ=?,COD_RUTA=?,COD_BUS=? WHERE COD_BOL=?";
-            PreparedStatement ps = this.getCn().prepareStatement(sql);
-            ps.setString(1, boleto.getFecha());
-            ps.setString(2, boleto.getNumeroAsiento());
-            ps.setString(3, boleto.getCodPasajero());
-            ps.setString(4, boleto.getCodRuta());
-            ps.setString(5, boleto.getCodBus());
-            ps.setString(6, boleto.getCodigo());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-        }finally{
-            this.cerrar();
-        }
-    }
-
-    @Override
-    public void eliminar(BoletoM boleto) throws Exception {
-        try {
-            this.conectar();
-            String sql = "DELETE FROM BOLETO WHERE COD_BOL=?";
-            PreparedStatement ps = this.getCn().prepareStatement(sql);
-            ps.setString(1, boleto.getCodigo());
+            ps.setString(3, "A");
+            ps.setString(4, boleto.getCodPasajero());
+            ps.setString(5, boleto.getCodRuta());
+            ps.setString(6, boleto.getCodBus());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw e;

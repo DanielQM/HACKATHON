@@ -6,6 +6,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Sucursales</title>
+    </h:head>
+    <h:body>
+        
         <h:form>
             <p:tabMenu activeIndex="#{param.i}">
                 <p:menuitem value="BOLETO" outcome="boleto">
@@ -25,8 +28,6 @@
                 </p:menuitem>
             </p:tabMenu>
         </h:form>
-    </h:head>
-    <h:body>
         <h:form id="FormSuc">
             <p:growl id="msg" life="1500" autoUpdate="true"/>
             <p:panelGrid columns="2">
@@ -38,7 +39,17 @@
             </p:panelGrid>
         </h:form>
         <h:form id="FormTblSuc">
-            <p:dataTable id="tblSuc" var="sucursal" value="#{sucursalC.lstSucursal}" selection="#{sucursalC.selectedSucursal}" selectionMode="single" rowKey="#{sucursal.codigo}">
+            <p:dataTable id="tblSuc"
+                         var="sucursal"
+                         value="#{sucursalC.lstSucursal}"
+                         selection="#{sucursalC.selectedSucursal}"
+                         selectionMode="single"
+                         rowKey="#{sucursal.codigo}">
+                <f:facet name="header">
+                    <h:commandLink value="Descargar">
+                        <p:dataExporter type="pdf" target="tblSuc" fileName="Sucursales"/>
+                    </h:commandLink>
+                </f:facet>
                 <p:column headerText="SUCURSAL">
                     <h:outputText value="#{sucursal.nombre}"/>
                 </p:column>
@@ -57,7 +68,7 @@
                     <p:inputText value="#{sucursalC.selectedSucursal.nombre}" maxlength="50" style="text-transform: uppercase">
                         <p:keyFilter regEx="/[a-z/A-Z]/"/>
                     </p:inputText>
-                    <p:commandButton value="MODIFICAR" actionListener="#{sucursalC.modificar()}" update=":FormTblSuc:tblSuc" oncomplete="PF('dialogModSuc').hide()"/>
+                    <p:commandButton value="MODIFICAR" actionListener="#{sucursalC.modificar()}" update=":FormTblSuc:tblSuc" oncomplete="PF('dlgModSuc').hide()"/>
                     <p:commandButton value="CANCELAR" oncomplete="PF('dialogModSuc').hide()"/>
                 </p:panelGrid>
             </h:form>

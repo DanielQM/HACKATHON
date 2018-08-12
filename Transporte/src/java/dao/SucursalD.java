@@ -15,9 +15,10 @@ public class SucursalD extends Dao implements ISucursal {
     public void guardar(SucursalM sucursal) throws Exception {
         try {
             this.conectar();
-            String sql = "INSERT INTO SUCURSALES VALUES(?)";
+            String sql = "EXEC SP_INSERTSUCURSAL ?,?";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             ps.setString(1, sucursal.getNombre());
+            ps.setString(2, "A");
             ps.executeUpdate();
         } catch (SQLException e) {
             throw e;
@@ -30,7 +31,7 @@ public class SucursalD extends Dao implements ISucursal {
     public void modificar(SucursalM sucursal) throws Exception {
         try {
             this.conectar();
-            String sql = "UPDATE SUCURSALES SET NOM_SUC=? WHERE COD_SUC=?";
+            String sql = "EXEC SP_UPDATESUCURSAL @NOM_SUC=?, @COD_SUC=?";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             ps.setString(1, sucursal.getNombre());
             ps.setString(2, sucursal.getCodigo());
@@ -46,7 +47,7 @@ public class SucursalD extends Dao implements ISucursal {
     public void eliminar(SucursalM sucursal) throws Exception {
         try {
             this.conectar();
-            String sql = "DELETE FROM SUCURSALES WHERE COD_SUC=?";
+            String sql = "EXEC SP_DELETESUCURSAL ?";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             ps.setString(1, sucursal.getCodigo());
             ps.executeUpdate();
@@ -63,7 +64,7 @@ public class SucursalD extends Dao implements ISucursal {
         ResultSet rs;
         try {
             this.conectar();
-            String sql = "SELECT * FROM SUCURSALES";
+            String sql = "EXEC SP_LISTSUCURSAL";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             rs = ps.executeQuery();
             listaSuc = new ArrayList();

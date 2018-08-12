@@ -15,11 +15,12 @@ public class RutaD extends Dao implements IRuta{
     public void guardar(RutaM ruta) throws Exception {
         try {
             this.conectar();
-            String sql = "INSERT INTO RUTAS VALUES(?,?,?)";
+            String sql = "EXEC SP_INSERTRUTA ?,?,?,?";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             ps.setString(1, ruta.getOrigen());
             ps.setString(2, ruta.getDestino());
             ps.setString(3, ruta.getCosto());
+            ps.setString(4, "A");
             ps.executeUpdate();
         } catch (SQLException e) {
             throw e;
@@ -32,7 +33,7 @@ public class RutaD extends Dao implements IRuta{
     public void modificar(RutaM ruta) throws Exception {
         try {
             this.conectar();
-            String sql = "UPDATE RUTAS SET ORI_RUTA=?, DES_RUTA=?, COS_RUTA=? WHERE COD_RUTA=?";
+            String sql = "EXEC SP_UPDATERUTA @ORI_RUTA=?, @DES_RUTA=?, @COS_RUTA=?, @COD_RUTA=?";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             ps.setString(1, ruta.getOrigen());
             ps.setString(2, ruta.getDestino());
@@ -50,7 +51,7 @@ public class RutaD extends Dao implements IRuta{
     public void eliminar(RutaM ruta) throws Exception {
         try {
             this.conectar();
-            String sql="DELETE FROM RUTAS WHERE COD_RUTA=?";
+            String sql="EXEC SP_DELETERUTA ?";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             ps.setString(1, ruta.getCodigo());
             ps.executeUpdate();
@@ -67,7 +68,7 @@ public class RutaD extends Dao implements IRuta{
         ResultSet rs;
         try {
             this.conectar();
-            String sql = "SELECT * FROM RUTAS";
+            String sql = "EXEC SP_LISTRUTA";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             rs = ps.executeQuery();
             listaRuta = new ArrayList();
